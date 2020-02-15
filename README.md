@@ -10,7 +10,7 @@ Crimes can affect the economic growth of a city by different means, including th
 Our project tries to spot different criminal zones in the Montreal city and predicts different crime types given specific requirements. Some of the problems we are faced include incomplete datasets and finding good measurements to classify neighborhoods' safety.
 
 ### Related Work
-
+There have been several works done in order to identify crime spots using the locations. Also, there are several applications that show the exact location and crime type for a given city. Furthurmore, there are some previous work regarding the relationship between the time and location of the crime. Other works mainly focus on the relationships between the criminal activity and socio-economics variables such as ethnicity, education and income level. In this project we try to focus on the prediction of a crime type and the safety of a neighbourhood.
 ## Materials and Methods
 
 ### Dataset
