@@ -4,8 +4,9 @@ import pandas as pd
 
 def group_by_time_of_day(df):
     grouped = df.groupby(['TIME_OF_DAY']).size().to_frame('Crimes')
-    p = grouped.plot.pie(y='Crimes', labels=['Day', 'Evening', 'Night'])
+    p = grouped.plot.pie(y='Crimes', labels=['Day', 'Evening', 'Night'], autopct='%1.1f%%')
     p.set_title('Crimes Percentage Grouped By Time of Day')
+    p.get_legend().remove()
     plt.savefig('../charts/time_of_day.png')
 
 def group_by_month(df):
@@ -21,8 +22,9 @@ def group_by_month(df):
 
 def group_by_year(df):
     grouped = df.groupby(['YEAR']).size().to_frame('Crimes')
-    p = grouped.plot.pie(y='Crimes')
+    p = grouped.plot.pie(y='Crimes', autopct='%1.1f%%')
     p.set_title('Crimes Percentage Grouped By Year')
+    p.get_legend().remove()
     plt.savefig('../charts/year.png')
 
 def group_by_territory(df):
@@ -34,6 +36,7 @@ def group_by_territory(df):
     p.set_title('Crimes Percentage Grouped By Territory')
     p.set_ylabel('Percentage of Crimes')
     p.set_xlabel('Territory Number')
+    p.get_legend().remove()
     plt.savefig('../charts/territory.png')
 
 
