@@ -2,6 +2,15 @@ import matplotlib.pyplot as plt
 import pandas as pd
 
 
+def group_by_category(df):
+    grouped = df.groupby(['CATEGORY']).size().to_frame('Crimes')
+    labels = ['Trespassing', 'Vehicle theft', 'General Theft',
+              'Damage to Property', 'Robbery', 'Homicide']
+    p = grouped.plot.pie(y='Crimes', labels=labels, autopct='%1.1f%%')
+    p.set_title('Crimes Percentage Grouped By Category')
+    p.get_legend().remove()
+    plt.savefig('../charts/category.png')
+
 def group_by_time_of_day(df):
     grouped = df.groupby(['TIME_OF_DAY']).size().to_frame('Crimes')
     p = grouped.plot.pie(y='Crimes', labels=['Day', 'Evening', 'Night'], autopct='%1.1f%%')
@@ -46,3 +55,4 @@ if __name__ == '__main__':
     group_by_year(df)
     group_by_month(df)
     group_by_time_of_day(df)
+    group_by_category(df)
