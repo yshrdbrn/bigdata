@@ -11,7 +11,6 @@ from sklearn.cluster import AgglomerativeClustering
 import numpy as np
 import math
 
-
 # ploting
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -20,27 +19,28 @@ import geopandas as gpd
 from shapely.geometry import Point,Polygon
 
 
-def plot():
-	spray_df = pd.read_csv(str(Path().absolute())+'/test.csv')
-	geometry = [Point(xy) for xy in zip(spray_df.LONGITUDE, spray_df.LATITUDE)]
+def cluster_centriods(points):
+	clusters = points.groupby(['cluster']).mean()
+	clusters['size'] = points.groupby(['cluster']).size()
+	return clusters
 
-	spray_df['geometry'] = geometry
-	spray_df.drop(['LATITUDE','LONGITUDE'], axis = 1, inplace=True)
-	crs = {'init': 'epsg:4326'}
-	street_map=gpd.read_file(str(Path().absolute())+"/get_geojson.txt")
-	ax = street_map.plot(color='grey',figsize=(15,15))
-	allofthem=spray_df.cluster
-	allofthem=allofthem.count()
+def plot():
+	points = pd.read_csv(str(Path().absolute())+'/clusters.csv')
+	clusters = points.groupby(['cluster']).mean()
+	clusters['size'] = points.groupby(['cluster']).size()
+	clusters['geometry'] = [Point(xy) for xy in zip(clusters.LONGITUDE, clusters.LATITUDE)]
+	clusters.drop(['LATITUDE','LONGITUDE'], axis = 1, inplace=True)
+
+	montreal_map=gpd.read_file('montreal_boundaries.geojson')
+	ax = montreal_map.plot(color='grey')
+	max_cluster_size = clusters['size'].max()
 	for i in range(410):
-  		tmp=spray_df[spray_df.cluster==i]
-  		spray_locs = gpd.GeoDataFrame(tmp, crs=crs)
-  		alpha=tmp.cluster
-  		alpha=alpha.count()
-  		alpha=float(alpha/allofthem)*100
-  		spray_locs.geometry.plot(marker='d', color='r', markersize=1, ax=ax , alpha=alpha)
+  		tmp=clusters[clusters.index==i]
+  		spray_locs = gpd.GeoDataFrame(tmp, crs={'init': 'epsg:4326'})
+  		alpha=float(tmp.loc[i, 'size'] / max_cluster_size)
+  		spray_locs.geometry.plot(color='red', markersize=20, ax=ax , alpha=alpha)
 	plt.title('Montreal crimes')
 	plt.show()
-
 
 
 def init_spark():
@@ -78,52 +78,16 @@ def clustering(filename):
 	labels={}
 	points=rddprim.collect()
 
-	# x = (45.488568, 73.643122)
-	# y = (45.484567, 73.646684)
-	# threshold = math.sqrt(sum([(a - b) ** 2 for a, b in zip(x, y)]))
-
-
 	for label in range(len(kmeans.labels_)):
 		labels[points[label]]=kmeans.labels_[label]
 
-	# clusters={cluster:[] for cluster in kmeans.labels_}
-	# for key in labels.keys():
-	# 	clusters[labels[key]].append(key)
-	# for cluster in clusters.keys():
-	# 	clusters[cluster]=len(clusters[cluster])
-	# rdd=spark.sparkContext.parallelize(clusters.items())
-	# rdd=rdd.sortBy(lambda x:x[1],ascending=False)
-	# rdd=rdd.map(lambda x:x[0])
-	# clusters=
-
-
-	# for cluster in clusters.keys():
-	# 	if distnaces(clusters[cluster],7*threshold)==False:
-	# 		print(cluster)
-	# 		return False
-	# return True
-
-
-
-
-	with open(str(Path().absolute())+'/test.csv','w',newline='') as f:
+	with open(str(Path().absolute())+'/clusters.csv','w',newline='') as f:
 		thewriter=csv.writer(f)
 		thewriter.writerow(['LONGITUDE','LATITUDE','cluster'])
 		for i in labels.items():
 			thewriter.writerow([i[0][0],i[0][1],i[1]])
 
-	
-		
-
-	
-
 
 if __name__=="__main__":
-	clustering(str(Path().absolute())+"../data/crimes_dataset.csv")
+	clustering(str(Path().absolute())+"/../data/crimes_dataset.csv")
 	plot()
-
-
-
-
-
-
