@@ -15,7 +15,7 @@ def create_udf(date_type):
     elif date_type == 'month':
         return udf(lambda d: datetime.datetime.strptime(d, "%Y-%m-%d").month, IntegerType())
     else:
-        return udf(lambda d: datetime.datetime.strptime(d, "%Y-%m-%d").day, IntegerType())
+        return udf(lambda d: datetime.datetime.strptime(d, "%Y-%m-%d").weekday(), IntegerType())
 
 def crime_name_to_number(name):
     if name == 'Introduction':
@@ -61,7 +61,7 @@ def preprocess(file_name, keep_incomplete_records=False):
     # Add year, month, day
     df = df.withColumn("YEAR", create_udf('year')("DATE"))
     df = df.withColumn("MONTH", create_udf('month')("DATE"))
-    df = df.withColumn("DAY", create_udf('day')("DATE"))
+    df = df.withColumn("DAY_OF_THE_WEEK", create_udf('day')("DATE"))
 
     # Translate values to numbers
     df = df.withColumn("CATEGORY", udf(crime_name_to_number, IntegerType())("CATEGORIE"))
