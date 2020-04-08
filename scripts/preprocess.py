@@ -50,12 +50,13 @@ def time_of_day_to_number(name):
         print(name)
         assert False
 
-def preprocess():
+def preprocess(file_name, keep_incomplete_records=False):
     spark = init_spark()
     df = spark.read.csv("../data/crimes_dataset.csv", header=True, mode="DROPMALFORMED")
 
-    # Remove records with no latitude, longitude
-    df = df.filter(df.X != 0).filter(df.X != 1)
+    if not keep_incomplete_records:
+        # Remove records with no latitude, longitude
+        df = df.filter(df.X != 0).filter(df.X != 1)
 
     # Add year, month, day
     df = df.withColumn("YEAR", create_udf('year')("DATE"))
@@ -68,8 +69,9 @@ def preprocess():
 
     # Print
     df = df.drop('CATEGORIE', 'DATE', 'QUART', 'X', 'Y')
-    df.toPandas().to_csv('../data/crimes_dataset_processed.csv', index=False)
+    df.toPandas().to_csv('../data/' + file_name, index=False)
 
 
 if __name__ == '__main__':
-    preprocess()
+    preprocess('crimes_dataset_processed.csv')
+    preprocess('crimes_dataset_processed_incomplete.csv', keep_incomplete_records=True)
