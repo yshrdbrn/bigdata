@@ -18,6 +18,14 @@ def group_by_time_of_day(df):
     p.get_legend().remove()
     plt.savefig('../charts/time_of_day.png')
 
+def group_by_day_of_the_week(df):
+    grouped = df.groupby(['DAY_OF_THE_WEEK']).size().to_frame('Crimes')
+    labels = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
+    p = grouped.plot.pie(y='Crimes', labels=labels, autopct='%1.1f%%')
+    p.set_title('Crimes Percentage Grouped By Day of The Week')
+    p.get_legend().remove()
+    plt.savefig('../charts/day_of_the_week.png')
+
 def group_by_month(df):
     grouped = df.groupby(['MONTH']).size().to_frame('Size')
     grouped['Percentage'] = 100 * grouped['Size'] / len(df)
@@ -55,4 +63,5 @@ if __name__ == '__main__':
     group_by_year(df)
     group_by_month(df)
     group_by_time_of_day(df)
+    group_by_day_of_the_week(df)
     group_by_category(df)

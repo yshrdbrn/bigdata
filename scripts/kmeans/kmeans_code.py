@@ -89,5 +89,5 @@ def clustering(filename):
 
 
 if __name__=="__main__":
-	clustering(str(Path().absolute())+"/../data/crimes_dataset.csv")
+	clustering(str(Path().absolute())+"/../../data/crimes_dataset.csv")
 	plot()
