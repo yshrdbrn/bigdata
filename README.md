@@ -64,7 +64,7 @@ The final result of the K-means shows that most of the crimes, regardless of the
 
 ![Figure 1](plots/clusters.png "Crime Hotspots")
 
-Furthermore, we were able to achieve 43% accuracy for predicting the crime category based on the location, date and time. We also computed other measurements such as precision and recall with one versus all.
+Furthermore, by dividing the train and test set to 0.8 and 0.2 respectively, we were able to achieve 43% accuracy for predicting the crime category based on the location, date and time. We also computed other measurements such as precision and recall with one versus all.
 
 | Category | Precision | Recall | f1-score | Support |
 |:--------:|:---------:|:------:|:--------:|:-------:|
