@@ -58,6 +58,8 @@ We use _PySpark_ for data preprocessing and extracting the new features. We also
 
 ## Results
 
+The analysis of the dataset shows that most of the crimes happen in the weekdays with a very slight difference. Also it shows that more than half of the crimes happen during the day. Based on this dataset, it seems that the number of crimes is decreasing each year starting from 2015. Most of the crimes were related to trespassing and general theft followed by damage to property and vehicle theft. Homicides has the lowest percentages of the crimes. This dataset also shows that there is a considerable amount of differences in crime numbers in different territories. Some territories like 55 constitute of less than 0.5% of the crimes while others such as 38 constitute of more than 7% of the crimes. 
+
 The final result of the K-means shows that most of the crimes, regardless of their categories, happen in the east side of the city. Figure below shows the centroid of each cluster with respect to its points abundance. The more crimes happening in a cluster, the brighter the cluster is shown in the figure. 
 
 ![Figure 1](plots/clusters.png "Crime Hotspots")
