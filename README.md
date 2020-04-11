@@ -58,7 +58,20 @@ We use _PySpark_ for data preprocessing and extracting the new features. We also
 
 ## Results
 
-The final result of the K-means shows that most of the crimes, regardless of their categories, happen in the east side of the city. Figure **** shows the centroid of each cluster with respect to its points abundance. Furthermore, we were able to achieve 43% accuracy for predicting the crime category based on the location, date and time. We also computed other measurements such as precision and recall with one versus the other algorithm.
+The final result of the K-means shows that most of the crimes, regardless of their categories, happen in the east side of the city. Figure below shows the centroid of each cluster with respect to its points abundance. The more crimes happening in a cluster, the brighter the cluster is shown in the figure. 
+
+![Figure 1](plots/clusters.png "Crime Hotspots")
+
+Furthermore, we were able to achieve 43% accuracy for predicting the crime category based on the location, date and time. We also computed other measurements such as precision and recall with one versus the other algorithm.
+
+| Category | Precision | Recall | f1-score | Support |
+|:--------:|:---------:|:------:|:--------:|:-------:|
+|     1    |    0.46   |  0.63  |   0.53   |   8482  |
+|     2    |    0.44   |  0.28  |   0.35   |   3668  |
+|     3    |    0.43   |  0.47  |   0.45   |   6790  |
+|     4    |    0.38   |  0.30  |   0.34   |   5966  |
+|     5    |    0.50   |  0.09  |   0.15   |   1491  |
+|     6    |    0.00   |  0.00  |   0.00   |    24   |
 
 ## Discussion
 
